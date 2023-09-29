@@ -44,6 +44,21 @@ class Tree {
     return root
   }
 
+  findNode(root, data) {
+    if (!root) return false
+    if (data < root.data) {
+      return this.findNode(root.left, data)
+    } else if (data > root.data) {
+      return this.findNode(root.right, data)
+    } else {
+      return true
+    }
+  }
+
+  height(root) {
+
+  }
+
   inOrder(root) {
     if (root) {
       this.inOrder(root.left)
