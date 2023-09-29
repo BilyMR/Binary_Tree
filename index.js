@@ -6,45 +6,69 @@ class Node {
   }
 }
 
-class tree {
+class Tree {
   constructor() {
     this.root = null
   }
 
-  sortedArr(arr) {
-    const sorted = [...new Set(arr)].sort((a, b) => a - b)
-    return sorted
-  }
-
-  buildTree(arr, start, end) {
-    let sorted = this.sortedArr(arr)
-    start = 0
-    end = (sorted.length - 1)
-    let mid = Math.ceil((start + end) / 2)
-
+  buildTree(arr, start = 0, end = arr.length - 1) {
     if (start > end) return null
 
+    const sorted = [...new Set(arr)].sort((a, b) => a - b)
+
+    return this._buildTree(sorted, start, end)
+  }
+
+  _buildTree(sorted, start, end) {
+    if (start > end) return null
+
+    let mid = Math.floor((start + end) / 2)
+
     const node = new Node(sorted[mid])
-    node.left = this.buildTree(sorted, start, mid - 1)
-    node.right = this.buildTree(sorted, mid + 1, end)
+    node.left = this._buildTree(sorted, start, mid - 1)
+    node.right = this._buildTree(sorted, mid + 1, end)
 
     return node
   }
 
-  prettyPrint = (node, prefix = "", isLeft = true) => {
-    if (node === null) {
-      return;
+  insertRec(root, data) {
+    if (root == null) {
+      root = new Node(data)
+      return root
     }
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    if (data < root.data) {
+      root.left = this.insertRec(root.left, data)
+    } else if (data > root.data) {
+      root.right = this.insertRec(root.right, data)
     }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    return root
+  }
+
+  inOrder(root) {
+    if (root) {
+      this.inOrder(root.left)
+      console.log(root.data)
+      this.inOrder(root.right)
     }
-  };
+  }
+
+  preOrder(root) {
+    if (root) {
+      console.log(root.data)
+      this.preOrder(root.left)
+      this.preOrder(root.right)
+    }
+  }
+
+  postOrder(root) {
+    if (root) {
+      this.postOrder(root.left)
+      this.postOrder(root.right)
+      console.log(root.data)
+    }
+  }
 }
 
-const bTree = new tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
-
-bTree.buildTree()
+const tree = new Tree()
+const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+raiz = tree.buildTree(array)
