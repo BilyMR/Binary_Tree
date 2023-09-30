@@ -44,43 +44,61 @@ class Tree {
     return root
   }
 
-  findNode(root, data) {
-    if (!root) return false
-    if (data < root.data) {
-      return this.findNode(root.left, data)
-    } else if (data > root.data) {
-      return this.findNode(root.right, data)
+  findNode(data) {
+    if (!this.root) return false
+    if (data < this.root.data) {
+      return this.findNode(this.root.left, data)
+    } else if (data > this.root.data) {
+      return this.findNode(this.root.right, data)
     } else {
       return true
     }
   }
 
   height(root) {
-
+    if (!root) return 0
+    return 1 + Math.max(this.height(root.left), this.height(root.right))
   }
+
+  checkBalanced(root) {
+    if (!root) return true
+    if (this.height(root.left) - this.height(root.right) <= 1) {
+      return true
+    } else {
+      return false
+    }
+  }
+
 
   inOrder(root) {
+    const result = [];
     if (root) {
-      this.inOrder(root.left)
-      console.log(root.data)
-      this.inOrder(root.right)
+      result.push(...this.inOrder(root.left));
+      result.push(root.data);
+      result.push(...this.inOrder(root.right));
     }
+    return result;
   }
 
+
   preOrder(root) {
+    const result = []
     if (root) {
-      console.log(root.data)
-      this.preOrder(root.left)
-      this.preOrder(root.right)
+      result.push(root.data)
+      result.push(...this.preOrder(root.left))
+      result.push(...this.preOrder(root.right))
     }
+    return result
   }
 
   postOrder(root) {
+    const result = []
     if (root) {
-      this.postOrder(root.left)
-      this.postOrder(root.right)
-      console.log(root.data)
+      result.push(...this.postOrder(root.left))
+      result.push(...this.postOrder(root.right))
+      result.push(root.data)
     }
+    return result
   }
 }
 
