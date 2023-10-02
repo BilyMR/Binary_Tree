@@ -7,8 +7,8 @@ class Node {
 }
 
 class Tree {
-  constructor() {
-    this.root = null
+  constructor(array) {
+    this.root = this.buildTree(array)
   }
 
   buildTree(arr, start = 0, end = arr.length - 1) {
@@ -31,6 +31,11 @@ class Tree {
     return node
   }
 
+  insertNode(data) {
+    if (!this.root) return false
+    return this.insertRec(this.root, data)
+  }
+
   insertRec(root, data) {
     if (root == null) {
       root = new Node(data)
@@ -46,10 +51,15 @@ class Tree {
 
   findNode(data) {
     if (!this.root) return false
-    if (data < this.root.data) {
-      return this.findNode(this.root.left, data)
-    } else if (data > this.root.data) {
-      return this.findNode(this.root.right, data)
+    return this._findNode(this.root, data)
+  }
+
+  _findNode(root, data) {
+    if (!root) return false
+    if (data < root.data) {
+      return this._findNode(root.left, data)
+    } else if (data > root.data) {
+      return this._findNode(root.right, data)
     } else {
       return true
     }
@@ -100,8 +110,27 @@ class Tree {
     }
     return result
   }
+
+  levelOrder(root) {
+    if (!root) return []
+    const q = []
+    const result = []
+    q.push(root)
+    while (q.length > 0) {
+      const node = q.shift()
+      result.push(node.data)
+      if (node.left) {
+        q.push(node.left)
+      }
+      if (node.right) {
+        q.push(node.right)
+      }
+    }
+    return result
+  }
 }
 
-const tree = new Tree()
-const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-raiz = tree.buildTree(array)
+const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
+const arbol = new Tree([4, 7, 76, 27, 1, 654, 2014, 666, 111])
+/* const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
+raiz = tree.buildTree(array) */
