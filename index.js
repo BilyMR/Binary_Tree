@@ -132,5 +132,8 @@ class Tree {
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324])
 const arbol = new Tree([4, 7, 76, 27, 1, 654, 2014, 666, 111])
-/* const array = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]
-raiz = tree.buildTree(array) */
+
+tree.insertNode(2)
+arbol.insertNode(2)
+console.log(tree.inOrder(tree.root))  // [1, 2, 3, 4, 5, 7, 8, 9, 23, 67, 324, 6345]
+console.log(arbol.inOrder(arbol.root)) // [1, 2, 4, 7, 27, 76, 111, 654, 666, 2014]
